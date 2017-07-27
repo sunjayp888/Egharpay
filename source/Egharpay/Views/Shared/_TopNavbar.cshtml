@@ -10,7 +10,7 @@
             </form>
         </div>
         <ul class="nav navbar-top-links navbar-right">
-            <li>
+            @*<li>
                 <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">Welcome to INSPINIA+ Admin Theme.</span>
             </li>
             <li class="dropdown">
@@ -107,7 +107,7 @@
                         </div>
                     </li>
                 </ul>
-            </li>
+            </li>*@
             <li>
                 @*<a href="@Url.Action("logout", "Account")">
                     <i class="fa fa-sign-out"></i> Log out
@@ -117,19 +117,24 @@
                     using (Html.BeginForm("logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                     {
                         @Html.AntiForgeryToken()
-                            <li>
-                                @string.Concat("Hello ", User.Identity.GetUserName())
-                            </li>
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Log out</a></li>
+
+
+                    <li>
+                        @string.Concat("Hello ", User.Identity.GetUserName())
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Log out</a></li>
                     }
                 }
 
-            </li>
-            <li>
-                <a class="right-sidebar-toggle">
-                    <i class="fa fa-tasks"></i>
-                </a>
-            </li>
-        </ul>
+                </li>
+                <li>
+                    <a class="right-sidebar-toggle">
+                        <i class="fa fa-tasks"></i>
+                    </a>
+                </li>
+            </ul>
+
+
+
     </nav>
 </div>
