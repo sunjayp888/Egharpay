@@ -11,8 +11,6 @@ namespace Egharpay.Entity
     {
         public int MaintenanceId { get; set; }
 
-        public int BillNumbar { get; set; }
-
         [Column(TypeName = "date")]
         public DateTime MaintenanceDate { get; set; }
 
@@ -20,31 +18,11 @@ namespace Egharpay.Entity
         [StringLength(50)]
         public string Title { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string FirstName { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string MiddleName { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string LastName { get; set; }
-
-        [StringLength(50)]
-        public string Wing { get; set; }
-
-        public int? FlatNumber { get; set; }
-
-        [StringLength(500)]
-        public string Month { get; set; }
-
         public decimal MaintenanceCharge { get; set; }
 
         public decimal? ServiceCharge { get; set; }
 
-        public decimal? VehicalCharge { get; set; }
+        public decimal? VehicleCharge { get; set; }
 
         public decimal? RentSurcharge { get; set; }
 

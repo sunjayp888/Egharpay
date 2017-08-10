@@ -125,26 +125,6 @@ namespace Egharpay.Data.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Maintenance>()
-                .Property(e => e.FirstName)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Maintenance>()
-                .Property(e => e.MiddleName)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Maintenance>()
-                .Property(e => e.LastName)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Maintenance>()
-                .Property(e => e.Wing)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Maintenance>()
-                .Property(e => e.Month)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Maintenance>()
                 .Property(e => e.RupeesInWords)
                 .IsUnicode(false);
 
