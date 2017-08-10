@@ -22,6 +22,9 @@ namespace Egharpay.Data.Models
         public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<DocumentType> DocumentTypes { get; set; }
         public virtual DbSet<Template> Templates { get; set; }
+		public virtual DbSet<PincodeDataGrid> PincodeDataGrids { get; set; }
+        public virtual DbSet<Maintenance> Maintenances { get; set; }
+        public virtual DbSet<MaintenanceGrid> MaintenanceGrids { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -115,6 +118,62 @@ namespace Egharpay.Data.Models
 
             modelBuilder.Entity<PersonnelGrid>()
                 .Property(e => e.Email)
+                .IsUnicode(false);
+				
+			modelBuilder.Entity<Maintenance>()
+                .Property(e => e.Title)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Maintenance>()
+                .Property(e => e.FirstName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Maintenance>()
+                .Property(e => e.MiddleName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Maintenance>()
+                .Property(e => e.LastName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Maintenance>()
+                .Property(e => e.Wing)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Maintenance>()
+                .Property(e => e.Month)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Maintenance>()
+                .Property(e => e.RupeesInWords)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.Title)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.FirstName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.MiddleName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.LastName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.Wing)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.Month)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MaintenanceGrid>()
+                .Property(e => e.RupeesInWords)
                 .IsUnicode(false);
 
             base.OnModelCreating(modelBuilder);

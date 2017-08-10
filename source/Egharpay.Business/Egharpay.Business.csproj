@@ -101,8 +101,10 @@
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\NodeExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Interfaces\IMaintenanceBusinessService.cs" />
     <Compile Include="Interfaces\IPdfService.cs" />
     <Compile Include="Interfaces\IPersonnelBusinessService.cs" />
+    <Compile Include="Interfaces\IPincodeBusinessService.cs" />
     <Compile Include="Interfaces\IRazorService.cs" />
     <Compile Include="Interfaces\ITemplateService.cs" />
     <Compile Include="Interfaces\MvcTemplateBase.cs" />
@@ -136,7 +138,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\MaintenanceBusinessService.cs" />
     <Compile Include="Services\PersonnelBusinessService.cs" />
+    <Compile Include="Services\PincodeBusinessService.cs" />
     <Compile Include="TemplateService.cs" />
   </ItemGroup>
   <ItemGroup>
