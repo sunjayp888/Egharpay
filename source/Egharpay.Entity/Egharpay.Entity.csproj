@@ -94,6 +94,8 @@
     <Compile Include="Interfaces\INotAbsenceDay.cs" />
     <Compile Include="Interfaces\IOrganisationFilterable.cs" />
     <Compile Include="Dto\OrderBy.cs" />
+    <Compile Include="Maintenance.cs" />
+    <Compile Include="MaintenanceGrid.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Dto\PagedResult.cs" />
     <Compile Include="Dto\Paging.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Personnel.cs" />
     <Compile Include="PersonnelGrid.cs" />
     <Compile Include="PersonnelSearchField.cs" />
+    <Compile Include="PincodeDataGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dto\Role.cs" />
     <Compile Include="Dto\Schedule.cs" />
