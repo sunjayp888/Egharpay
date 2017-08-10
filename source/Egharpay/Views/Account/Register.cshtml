@@ -3,61 +3,75 @@
     ViewBag.Title = "Register";
     Layout = null;
 }
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @*<h2>@ViewBag.Title.</h2>
-        <h4>Create a new account.</h4>*@
-    @*<hr />*@
-    @*<div class="form-group">
-            @Html.ValidationSummary("", new { @class = "help-block" })
-        </div>*@
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>INSPINIA | Registry</title>
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-        <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
-        <link href="~/Content/animate.css" rel="stylesheet">
-        <link href="~/Content/css/Site.css" rel="stylesheet">
-    </head>
 
-    <body class="gray-bg">
 
-        <div class="middle-box text-center loginscreen   animated fadeInDown">
-            <div ng-app="Egharpay">
-                <div class="middle-box text-center loginscreen animated fadeInDown" ng-controller="RegisterController as model">
-                    <div>
-                        @*<div>
-                                <h1 class="logo-element">Egharpay</h1>
-                            </div>*@
-                        <h3>Register to Egharpay</h3>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eGharpay | Register</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/css/Site.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="page-top" class="navbar-wrapper landing-page">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <a class="navbar-brand">eGharpay</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="loginColumns animated fadeInDown" ng-app="Egharpay" ng-controller="RegisterController as model">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="font-bold">Welcome to eGharpay</h2>
+                <p>
+                    Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
+                </p>
+                <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                </p>
+                <p>
+                    When an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                </p>
+
+                <p>
+                    <small>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</small>
+                </p>
+
+            </div>
+            <div class="col-md-6">
+                <div class="ibox-content">
+                    @Html.AntiForgeryToken()
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "m-t", role = "form" }))
+                    {
+                        <h1>Register to Egharpay</h1>
                         <p>Create account to see it in action.</p>
-                        @using (Html.BeginForm(new { @class = "m-t" }))
+                        if (ViewContext.ViewData.ModelState.Any(x => x.Key == ""))
                         {
-                            if (ViewContext.ViewData.ModelState.Any(x => x.Key == ""))
-                            {
-                                <div class="form-group alert alert-danger">
-
-                                    @Html.ValidationSummary(false, null, new { @class = "" })
-
-                                </div>
-
-                            }
-                            <div class="form-group">
-                                <div>
-                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Firstname" })
-                                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="form-group alert alert-danger">
+                                @Html.ValidationSummary(false, null, new { @class = "" })
                             </div>
-                            <div class="form-group">
-                                <div>
-                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Lastname" })
-                                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
-                                </div>
+                        }
+                        <div class="form-group">
+                            <div>
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Firstname" })
+                                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Lastname" })
+                                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
                                     <div class="form-group">
                                         <div>
@@ -101,18 +115,62 @@
                         }
                         <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
                     </div>
+                        <div class="form-group">
+                            <div>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "ConfirmPassword" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                @Html.TextBoxFor(m => m.Pincode, new { @class = "form-control", @placeholder = "Pincode" })
+                                @Html.ValidationMessageFor(m => m.Pincode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <p class="text-muted text-left">
+                            <small>
+                                <a>Find pincode?&nbsp;&nbsp;&nbsp;</a>
+                                OR <a ng-click="model.addPincode();" id="findZipCode">&nbsp;&nbsp;&nbsp; Get pincode from current location</a>
+                            </small>
+                        </p>
+                        <p class="text-muted text-right">
+                            <small></small>
+                        </p>
+                        <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
+
+                        <p class="text-muted text-center">
+                            <small>Already have an account?</small>
+                        </p>
+                        <a class="btn btn-sm btn-white btn-block" href="@Url.Action("Login", "Pages")">Login</a>
+
+                        <p class="m-t">
+                            <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>
+                        </p>
+                    }
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 
 
 
 </html>
 @Scripts.Render("~/Scripts/bower")
-    @Scripts.Render("~/Scripts/Application")
+@Scripts.Render("~/Scripts/Application")
 
-}
+
 
 <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcqnWhG3ozWTY6ONe-u4_Y2pk_iTiST9Y" async defer></script>
