@@ -30,6 +30,7 @@ namespace Egharpay.Controllers
         {
             return this.JsonNet(EgharpayBusinessService.RetrieveDocuments(UserOrganisationId, e => e.CentreId == UserCentreId && e.StudentCode == studentCode, orderBy, paging));
         }
+
         [HttpPost]
         public ActionResult List(Paging paging, List<OrderBy> orderBy)
         {

@@ -11,6 +11,8 @@ namespace Egharpay.Entity
     {
         public int DocumentId { get; set; }
 
+        public int? PersonnelId { get; set; }
+
         [Required]
         [StringLength(100)]
         public string StudentCode { get; set; }
@@ -41,8 +43,14 @@ namespace Egharpay.Entity
 
         public int? CentreId { get; set; }
 
+        [Required]
+        public string CreatedBy { get; set; }
+
         public virtual DocumentType DocumentType { get; set; }
 
         public virtual Organisation Organisation { get; set; }
+
+        public virtual Personnel Personnel { get; set; }
+
     }
 }

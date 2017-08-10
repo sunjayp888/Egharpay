@@ -19,6 +19,8 @@ namespace Egharpay.Entity
 
         public int CentreId { get; set; }
 
+        public int CustomerId { get; set; }
+
         [StringLength(50)]
         public string Title { get; set; }
 
