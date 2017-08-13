@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 
 namespace Egharpay.Models
 {
     public class JsonNetResult : ActionResult
     {
+        private readonly HttpStatusCode _httpStatus = HttpStatusCode.OK;
+
         public JsonNetResult()
         {
         }
@@ -24,7 +27,21 @@ namespace Egharpay.Models
 
         public JsonNetResult(object responseBody, JsonSerializerSettings settings)
         {
+            ResponseBody = responseBody;
             Settings = settings;
+        }
+
+        public JsonNetResult(object responseBody, HttpStatusCode httpStatus)
+        {
+            ResponseBody = responseBody;
+            _httpStatus = httpStatus;
+        }
+
+        public JsonNetResult(object responseBody, JsonSerializerSettings settings, HttpStatusCode httpStatus)
+        {
+            ResponseBody = responseBody;
+            Settings = settings;
+            _httpStatus = httpStatus;
         }
 
         /// <summary>Gets or sets the serialiser settings</summary> 
@@ -76,6 +93,8 @@ namespace Egharpay.Models
             {
                 response.ContentEncoding = ContentEncoding;
             }
+
+            response.StatusCode = (int)_httpStatus;
 
             if (ResponseBody != null)
             {

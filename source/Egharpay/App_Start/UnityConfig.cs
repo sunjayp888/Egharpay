@@ -1,17 +1,27 @@
-using System;
+using Configuration.Core;
+using Configuration.Interface;
 using Microsoft.Practices.Unity;
-using Egharpay.Business;
+using Microsoft.Practices.Unity.InterceptionExtension;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Web;
+using Egharpay.App_Start;
 using Egharpay.Business.Interfaces;
+using Egharpay.Business.Models;
 using Egharpay.Business.Services;
 using Egharpay.Data;
 using Egharpay.Data.Interfaces;
 using Egharpay.Data.Models;
 using Egharpay.Data.Services;
-using Egharpay.Interfaces;
-using Egharpay.Document.Interfaces;
-using Egharpay.Document;
-using System.Linq;
-using System.Data.Entity;
+using Configuration = System.Configuration.Configuration;
+using Egharpay.Business;
+using AutoMapper;
 
 namespace Egharpay
 {
@@ -24,6 +34,7 @@ namespace Egharpay
         private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
+            container.AddNewExtension<Interception>();
             RegisterTypes(container);
             return container;
         });
@@ -46,31 +57,66 @@ namespace Egharpay
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            container.RegisterType<IEgharpayDatabaseFactory<EgharpayDatabase>, EgharpayDatabaseFactory>(new InjectionConstructor(
-                    new InjectionParameter<string>(ConfigHelper.DefaultConnection)
-                 ));
+            // TODO: Register your types here     
+            container.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(_ => new HttpContextWrapper(HttpContext.Current)));
+            container.RegisterType<HttpRequestBase>(new PerRequestLifetimeManager(), new InjectionFactory(_ => new HttpRequestWrapper(HttpContext.Current.Request)));
 
+            container.RegisterType<IDatabaseFactory<EgharpayDatabase>, EgharpayDatabaseFactory>(
+                new InjectionConstructor(
+                    new InjectionParameter<string>(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString())
+                 ));
+            container.RegisterInstance(MappingsConfig.Initialize(), new ContainerControlledLifetimeManager());
+          //  container.RegisterInstance(LoggingConfig.Initialize(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString(), ConfigurationManager.AppSettings["serilog:write-to:MSSqlServer.tableName"]), new ContainerControlledLifetimeManager());
+            container.RegisterType<DbContext, EgharpayDatabase>();
+            container.RegisterType<IGenericDataService<DbContext>, EntityFrameworkGenericDataService>();
+            container.RegisterType<ICacheProvider, MemoryCacheProvider>();
+            container.RegisterType<IConfigurationManager, ConfigurationManagerAdapter>();
+            // container.RegisterType<IClientsAccessService, ClientsAccessService>();
+            // API Clients
             //container.RegisterType<IDocumentServiceRestClient, DocumentServiceRestClient>(
             //    new InjectionConstructor(
             //        new InjectionParameter<Uri>(new Uri(ConfigurationManager.AppSettings["DocumentRESTApiAddress"])),
-            //        new InjectionParameter<string>(ConfigurationManager.AppSettings["Username"]),
-            //        new InjectionParameter<string>(ConfigurationManager.AppSettings["Password"])
+            //        new InjectionParameter<string>(ConfigurationManager.AppSettings["DocumentRESTUsername"]),
+            //        new InjectionParameter<string>(ConfigurationManager.AppSettings["DocumentRESTPassword"])
+            //    ));
+            //container.RegisterType<ITemplateServiceRestClient, TemplateServiceRestClient>(
+            //    new InjectionConstructor(
+            //        new InjectionParameter<ICacheProvider>(container.Resolve<ICacheProvider>()),
+            //        new InjectionParameter<Uri>(new Uri(ConfigurationManager.AppSettings["TemplateRESTApiAddress"])),
+            //        new InjectionParameter<string>(ConfigurationManager.AppSettings["TemplateRESTUsername"]),
+            //        new InjectionParameter<string>(ConfigurationManager.AppSettings["TemplateRESTPassword"])
             //    ));
 
-            // let's enforce a singleton on CacheProvider, even though it accesses a static MemoryCache.Default
-            container.RegisterType<ICacheProvider, MemoryCacheProvider>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IPersonnelDataService, PersonnelDataService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IPersonnelTestDataService, PersonnelTestDataService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IPersonnelBusinessService, PersonnelBusinessService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IEgharpayBusinessService, EgharpayBusinessService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ITenantOrganisationService, EgharpayBusinessService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IGenericDataService<DbContext>, EntityFrameworkGenericDataService>();
-            // container.RegisterType<ITemplateService, TemplateService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IEmailService, EmailService>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new InjectionParameter<string>(ConfigHelper.OverrideEmailAddresses)
-                )
-            );
+           
+
+            //container.RegisterType<Business.EmailServiceReference.IEmailService, Business.EmailServiceReference.EmailServiceClient>(
+            //    new InjectionConstructor(
+            //        new InjectionParameter<string>("BasicHttpBinding_IEmailService")
+            //    ));
+
+            container.RegisterType<IEmailService, EmailService>();
+
+            //Currently distance calculation will be base on Minimum distance
+            //container.RegisterType<IGoogleDistanceMatrixApiBusinessService, GoogleDistanceMatrixApiBusinessService>(
+            //    new InjectionConstructor(
+            //        new InjectionParameter<IRestHttpClient>(new RestHttpClient(new HttpClient
+            //        {
+            //            BaseAddress = new Uri(ConfigurationManager.AppSettings["GoogleApiDistanceMatrixBaseUrl"]),
+            //            Timeout = new TimeSpan(0, 1, 0),
+            //            DefaultRequestHeaders = { Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") } }
+
+            //        })),
+            //        new InjectionParameter<IGoogleDistanceMatrixConfiguration>(new GoogleDistanceMatrixConfiguration
+            //        {
+            //            ApiKey = ConfigurationManager.AppSettings["GoogleApiDistanceMatrixKey"],
+            //            BaseUrl = ConfigurationManager.AppSettings["GoogleApiDistanceMatrixBaseUrl"],
+            //            DistanceSelector = doubles => doubles.Min() * 0.000621371192237, //Conversion to miles
+            //            Mode = "driving",
+            //            Units = "metric"
+
+            //        })
+            //        )
+            //    );
 
             // Register everything in these namespaces based on convention:
             var conventionBasedMappings = new[]
@@ -78,21 +124,27 @@ namespace Egharpay
                 "Egharpay.Data.Services",
                 "Egharpay.Data.Interfaces",
                 "Egharpay.Business.Services",
-                "Egharpay.Business.Interfaces",
+                "Egharpay.Business.Interfaces"
             };
 
             container.RegisterTypes(
                AllClasses.FromLoadedAssemblies().Where(tt => conventionBasedMappings.Any(n => n == tt.Namespace)),
                WithMappings.FromMatchingInterface,
-               //getName: new Func<Type, string>(t => t.Name)
                WithName.Default
             );
 
-            container.RegisterType<IDocumentService, DocumentService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ITenantsService, TenantsService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IPdfService, PdfService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IRazorService, RazorService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ITemplateService, TemplateService>(new ContainerControlledLifetimeManager());
+           
+            container.RegisterType<ICurrentUserResolver, OwinUserResolver>();
+
+            // SignalR Hubs
+            //container.RegisterType<ISummaryHub, SummaryHub>(new ContainerControlledLifetimeManager());
+
+            // MediatR    
+            //container.AddMediator(new List<Assembly> { typeof(MappingsConfig).Assembly, typeof(Business.App_Start.MappingsConfig).Assembly });
+
+            // 3rd Party 
+            //container.RegisterType<ICsvFactory, CsvFactory>(new ContainerControlledLifetimeManager());
         }
     }
+
 }

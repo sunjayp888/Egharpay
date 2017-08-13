@@ -11,7 +11,7 @@ namespace Egharpay.Data.Services
 {
     public class PincodeDataService : EgharpayDataService, IPincodeDataService
     {
-        public PincodeDataService(IEgharpayDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService) : base(databaseFactory, genericDataService)
+        public PincodeDataService(IDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService) : base(databaseFactory, genericDataService)
         {
         }
     }

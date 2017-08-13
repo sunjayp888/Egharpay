@@ -15,8 +15,6 @@ namespace Egharpay.Entity
 
         public int PersonnelId { get; set; }
 
-        public int OrganisationId { get; set; }
-
         public int CentreId { get; set; }
 
         public int CustomerId { get; set; }
@@ -63,8 +61,6 @@ namespace Egharpay.Entity
 
         [StringLength(10)]
         public string PANNumber { get; set; }
-
-        public virtual Organisation Organisation { get; set; }
 
         public virtual Centre Centre { get; set; }
 

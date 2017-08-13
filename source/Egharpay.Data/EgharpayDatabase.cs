@@ -1,12 +1,9 @@
-
-
-
-namespace Egharpay.Data.Models
+namespace Egharpay.Data
 {
     using System.Data.Entity;
-    using Entity;
+    using Egharpay.Entity;
 
-    public partial class EgharpayDatabase : OrganisationDbContext
+    public partial class EgharpayDatabase : DbContext
     {
         public EgharpayDatabase() : base("name=EgharpayDatabase")
         {
@@ -14,13 +11,11 @@ namespace Egharpay.Data.Models
 
         public virtual DbSet<PersonnelGrid> PersonnelGrids { get; set; }
         public virtual DbSet<AspNetUsersAlertSchedule> AspNetUsersAlertSchedules { get; set; }
-        public virtual DbSet<Host> Hosts { get; set; }
-        public virtual DbSet<Organisation> Organisations { get; set; }
         public virtual DbSet<Personnel> Personnels { get; set; }
         public virtual DbSet<UserAuthorisationFilter> UserAuthorisationFilters { get; set; }
         public virtual DbSet<Centre> Centres { get; set; }
         public virtual DbSet<Document> Documents { get; set; }
-        public virtual DbSet<DocumentType> DocumentTypes { get; set; }
+        public virtual DbSet<DocumentCategory> DocumentTypes { get; set; }
         public virtual DbSet<Template> Templates { get; set; }
 		public virtual DbSet<PincodeDataGrid> PincodeDataGrids { get; set; }
         public virtual DbSet<Maintenance> Maintenances { get; set; }
@@ -29,18 +24,6 @@ namespace Egharpay.Data.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
           
-            modelBuilder.Entity<Organisation>()
-                .HasMany(e => e.Hosts)
-                .WithRequired(e => e.Organisation)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Organisation>()
-                .HasMany(e => e.Personnels)
-                .WithRequired(e => e.Organisation)
-                .WillCascadeOnDelete(false);
-
-
-
             modelBuilder.Entity<Personnel>()
                 .Property(e => e.Telephone)
                 .IsUnicode(false);
@@ -70,15 +53,15 @@ namespace Egharpay.Data.Models
                 .Property(e => e.Location)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<DocumentType>()
+            modelBuilder.Entity<DocumentCategory>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<DocumentType>()
+            modelBuilder.Entity<DocumentCategory>()
                 .Property(e => e.BasePath)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<DocumentType>()
+            modelBuilder.Entity<DocumentCategory>()
                 .HasMany(e => e.Documents)
                 .WithRequired(e => e.DocumentType)
                 .WillCascadeOnDelete(false);
@@ -156,7 +139,7 @@ namespace Egharpay.Data.Models
                 .Property(e => e.RupeesInWords)
                 .IsUnicode(false);
 
-            base.OnModelCreating(modelBuilder);
+            OnModelCreating(modelBuilder);
         }
     }
 }

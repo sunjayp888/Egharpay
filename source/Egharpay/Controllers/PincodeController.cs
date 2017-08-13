@@ -14,12 +14,10 @@ namespace Egharpay.Controllers
     public class PincodeController : BaseController
     {
         private IPincodeBusinessService _pincodeBusinessService;
-        private IEgharpayBusinessService _egharpayBusinessService;
 
-        public PincodeController(IPincodeBusinessService pincodeBusinessService, IEgharpayBusinessService egharpayBusinessService) : base(egharpayBusinessService)
+        public PincodeController(IPincodeBusinessService pincodeBusinessService) : base()
         {
             _pincodeBusinessService = pincodeBusinessService;
-            _egharpayBusinessService = egharpayBusinessService;
         }
 
         // GET: Pincode

@@ -42,10 +42,7 @@ namespace Egharpay.Entity
 
         public int CentreId { get; set; }
 
-        public int OrganisationId { get; set; }
-
         public virtual Centre Centre { get; set; }
 
-        public virtual Organisation Organisation { get; set; }
     }
 }

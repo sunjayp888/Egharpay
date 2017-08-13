@@ -3,7 +3,7 @@ using Egharpay.Data.Interfaces;
 
 namespace Egharpay.Data.Models
 {
-    public class EgharpayDatabaseFactory : IEgharpayDatabaseFactory<EgharpayDatabase>
+    public class EgharpayDatabaseFactory : IDatabaseFactory<EgharpayDatabase>
     {
         public string NameOrConnectionString { get; }
 
@@ -19,18 +19,6 @@ namespace Egharpay.Data.Models
            // context.UseSerilog();
 
             return context;
-        }
-
-        public EgharpayDatabase Create()
-        {
-            ValidateConnectionString();
-            return new EgharpayDatabase(NameOrConnectionString);
-        }
-
-        public EgharpayDatabase Create(int organisationId)
-        {
-            ValidateConnectionString();
-            return new EgharpayDatabase(NameOrConnectionString, organisationId);
         }
 
         private void ValidateConnectionString()

@@ -11,13 +11,11 @@ namespace Egharpay.Business
     {
         private readonly IPdfService _pdfService;
         private readonly IRazorService _razorService;
-        private readonly IPersonnelDataService _personnelDataService;
 
-        public TemplateService(IRazorService razorService, IPdfService pdfService, IPersonnelDataService egharpayDataService)
+        public TemplateService(IRazorService razorService, IPdfService pdfService)
         {
             _pdfService = pdfService;
             _razorService = razorService;
-            _personnelDataService = egharpayDataService;
         }
 
         public byte[] CreatePDF(int organisationId, string jsonString, string templateName)
@@ -35,8 +33,7 @@ namespace Egharpay.Business
 
         public byte[] CreatePDFfromPDFTemplate(int organisationId, Dictionary<string, string> formValues, string templateName)
         {
-            var templateDetails = _personnelDataService.RetrieveTemplateDetails(organisationId, templateName);
-            return _pdfService.CreatePDFfromPDFTemplate(formValues, templateDetails.FilePath);
+            return _pdfService.CreatePDFfromPDFTemplate(formValues, string.Empty);
         }
 
         public string CreateText(int organisationId, string jsonString, string templateName)
@@ -51,8 +48,9 @@ namespace Egharpay.Business
 
         public string GetTemplateHtml(int organisationId, string templateName)
         {
-            var templateDetails = _personnelDataService.RetrieveTemplateDetails(organisationId, templateName);
-            return File.ReadAllText(templateDetails.FilePath);
+            //var templateDetails = _personnelDataService.RetrieveTemplateDetails(organisationId, templateName);
+            //return File.ReadAllText(templateDetails.FilePath);
+            return null;
         }
     }
 }

@@ -11,7 +11,8 @@ namespace Egharpay.Entity
     {
         public int DocumentId { get; set; }
 
-        public int? PersonnelId { get; set; }
+        [StringLength(50)]
+        public string PersonnelId { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -39,16 +40,15 @@ namespace Egharpay.Entity
 
         public DateTime? DownloadedDateTime { get; set; }
 
-        public int OrganisationId { get; set; }
-
         public int? CentreId { get; set; }
 
         [Required]
         public string CreatedBy { get; set; }
 
-        public virtual DocumentType DocumentType { get; set; }
+        [Required]
+        public string Product { get; set; }
 
-        public virtual Organisation Organisation { get; set; }
+        public virtual DocumentCategory DocumentType { get; set; }
 
         public virtual Personnel Personnel { get; set; }
 

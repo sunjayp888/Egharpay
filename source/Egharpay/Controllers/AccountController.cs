@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Configuration.Interface;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -10,6 +11,7 @@ using Egharpay.Business.Models;
 using Egharpay.Entity;
 using Egharpay.Models;
 using Egharpay.Models.Authorization;
+using Egharpay.Models.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Egharpay.Controllers
@@ -18,7 +20,8 @@ namespace Egharpay.Controllers
     public class AccountController : BaseController
     {
         private IPersonnelBusinessService PersonnelBusinessService { get; set; }
-        public AccountController(IEgharpayBusinessService hrBusinessService, IPersonnelBusinessService personnelBusinessService) : base(hrBusinessService)
+
+        public AccountController(IPersonnelBusinessService personnelBusinessService, IConfigurationManager configurationManager) : base(configurationManager)
         {
             PersonnelBusinessService = personnelBusinessService;
         }
@@ -154,7 +157,7 @@ namespace Egharpay.Controllers
                 var personnelResult = await CreatePersonnel(model);
                 if (personnelResult.Succeeded)
                 {
-                    user.PersonnelId = personnelResult.Entity.PersonnelId;
+                  //  user.PersonnelId = personnelResult.Entity.PersonnelId;
                     var roleId = RoleManager.Roles.FirstOrDefault(r => r.Name == "User").Id;
                     user.Roles.Add(new IdentityUserRole { UserId = user.Id, RoleId = roleId });
                     var result = await UserManager.CreateAsync(user, model.Password);
@@ -185,7 +188,6 @@ namespace Egharpay.Controllers
                 Email = model.Email,
                 Forenames = model.FirstName,
                 Surname = model.LastName,
-                OrganisationId = 4,
                 Postcode = model.Pincode
             };
             return await PersonnelBusinessService.CreatePersonnel(personnel);

@@ -14,24 +14,19 @@ namespace Egharpay.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        public HomeController(IEgharpayBusinessService egharpayBusinessService) : base(egharpayBusinessService)
+        public HomeController() : base()
         {
         }
 
         public ActionResult Index()
 
         {
-            var organisationId = UserOrganisationId;
-            var personnelId = UserPersonnelId;
-            var centreId = UserCentreId;
             bool isSuperAdmin = User.IsSuperAdmin();
-            var permissions = EgharpayBusinessService.RetrievePersonnelPermissions(User.IsInRole("Admin"), organisationId, personnelId);
-            if (User.IsInRole("User") && !permissions.IsManager)
-                return RedirectToAction("Profile", "Personnel", new { id = personnelId });
+            if (User.IsInRole("User"))
+                return RedirectToAction("Profile", "Personnel");
 
             var viewModel = new HomeViewModel
             {
-                Permissions = permissions,
             };
 
             return View(viewModel);
@@ -56,8 +51,7 @@ namespace Egharpay.Controllers
         [HttpPost]
         public ActionResult GetCentres()
         {
-            var data = EgharpayBusinessService.RetrieveCentres(UserOrganisationId);
-            return this.JsonNet(data);
+            return this.JsonNet(null);
         }
     }
 }

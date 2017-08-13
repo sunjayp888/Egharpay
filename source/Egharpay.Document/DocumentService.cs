@@ -28,7 +28,7 @@ namespace Egharpay.Document
             var newGuid = Guid.NewGuid();
             var category =
                 PersonnelDataService.RetrieveDocumentTypes(organisationId)
-                    .FirstOrDefault(e => e.DocumentTypeId == categoryId);
+                    .FirstOrDefault(e => e.DocumentCategoryId == categoryId);
             var centre = PersonnelDataService.RetrieveCentre(organisationId, centreId, e => true);
             var basePath = CreateCentreBase(category.BasePath, centre.Name);
             var categoryFileName = string.Concat(category.Name, "_", newGuid, "_", fileName);
@@ -40,7 +40,6 @@ namespace Egharpay.Document
             File.WriteAllBytes(filePath, contents);
             var document = new Entity.Document()
             {
-                OrganisationId = organisationId,
                 CentreId = centreId,
                 DocumentTypeId = categoryId,
                 StudentCode = studentCode,

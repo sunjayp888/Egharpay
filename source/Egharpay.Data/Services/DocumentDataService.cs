@@ -9,9 +9,9 @@ using Egharpay.Data.Models;
 
 namespace Egharpay.Data.Services
 {
-    public class MaintenanceDataService : EgharpayDataService,IMaintenanceDataService
+    public class DocumentDataService : EgharpayDataService, IDocumentDataService
     {
-        public MaintenanceDataService(IDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService) : base(databaseFactory, genericDataService)
+        public DocumentDataService(IDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService) : base(databaseFactory, genericDataService)
         {
         }
     }

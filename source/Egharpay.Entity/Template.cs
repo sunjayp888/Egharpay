@@ -23,8 +23,5 @@ namespace Egharpay.Entity
         [StringLength(20)]
         public string Type { get; set; }
 
-        public int OrganisationId { get; set; }
-
-        public virtual Organisation Organisation { get; set; }
     }
 }

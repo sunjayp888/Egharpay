@@ -6,7 +6,7 @@ namespace Egharpay.Data.Services
 {
     public class PersonnelTestDataService : EgharpayDataService, IPersonnelTestDataService
     {
-        public PersonnelTestDataService(IEgharpayDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService) : base(databaseFactory, genericDataService)
+        public PersonnelTestDataService(IDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService) : base(databaseFactory, genericDataService)
         {
         }
     }

@@ -36,7 +36,6 @@ namespace Egharpay.Controllers
             {
                 Centre = new Centre
                 {
-                    OrganisationId = UserOrganisationId
                 }
             };
             return View(viewModel);
@@ -51,7 +50,6 @@ namespace Egharpay.Controllers
             var organisationId = UserOrganisationId;
             if (ModelState.IsValid)
             {
-                centreViewModel.Centre.OrganisationId = UserOrganisationId;
                 centreViewModel.Centre = EgharpayBusinessService.CreateCentre(UserOrganisationId, centreViewModel.Centre);
                 return RedirectToAction("Index");
             }
@@ -85,7 +83,6 @@ namespace Egharpay.Controllers
         {
             if (ModelState.IsValid)
             {
-                centreViewModel.Centre.OrganisationId = UserOrganisationId;
                 return RedirectToAction("Index");
             }
             var viewModel = new CentreViewModel

@@ -16,11 +16,11 @@ namespace Egharpay.Data.Services
     /// </summary>
     public class EgharpayDataService : IEgharpayDataService
     {
-        protected readonly IEgharpayDatabaseFactory<EgharpayDatabase> _databaseFactory;
+        protected readonly IDatabaseFactory<EgharpayDatabase> _databaseFactory;
         protected readonly IGenericDataService<DbContext> _genericDataService;
         protected TransactionScope ReadUncommitedTransactionScope => new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted });
         protected TransactionScope ReadUncommitedTransactionScopeAsync => new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }, TransactionScopeAsyncFlowOption.Enabled);
-        public EgharpayDataService(IEgharpayDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService)
+        public EgharpayDataService(IDatabaseFactory<EgharpayDatabase> databaseFactory, IGenericDataService<DbContext> genericDataService)
         {
             _databaseFactory = databaseFactory;
             _genericDataService = genericDataService;

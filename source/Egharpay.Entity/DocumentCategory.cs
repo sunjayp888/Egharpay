@@ -6,16 +6,16 @@ namespace Egharpay.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DocumentType")]
-    public partial class DocumentType
+    [Table("DocumentCategory")]
+    public partial class DocumentCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DocumentType()
+        public DocumentCategory()
         {
             Documents = new HashSet<Document>();
         }
 
-        public int DocumentTypeId { get; set; }
+        public int DocumentCategoryId { get; set; }
 
         [Required]
         [StringLength(200)]
@@ -24,8 +24,6 @@ namespace Egharpay.Entity
         [Required]
         [StringLength(1000)]
         public string BasePath { get; set; }
-
-        public int OrganisationId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Document> Documents { get; set; }

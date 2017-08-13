@@ -11,7 +11,7 @@ namespace Egharpay.Business.Interfaces
 {
     public interface IDocumentBusinessService
     {
-        IEnumerable<DocumentType> RetrieveDocumentTypes();
+        IEnumerable<DocumentCategory> RetrieveDocumentTypes();
         PagedResult<Document> RetrieveDocuments(Expression<Func<Document, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
     }
 }

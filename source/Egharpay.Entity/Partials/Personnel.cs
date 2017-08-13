@@ -31,9 +31,7 @@ namespace Egharpay.Entity
 
         private class PersonnelMetadata
         {
-            [Display(Name = "Organisation")]
-            public int? OrganisationId { get; set; }
-
+            
             [Display(Name = "Date of birth")]            
             public DateTime DOB { get; set; }
 

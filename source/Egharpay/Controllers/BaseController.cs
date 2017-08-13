@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using Configuration.Interface;
 using Egharpay.Business;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -7,33 +8,34 @@ using Egharpay.Business.Interfaces;
 using Egharpay.Entity.Dto;
 using Egharpay.Models;
 using Egharpay.Models.Authorization;
+using Egharpay.Models.Identity;
+using Microsoft.Owin.Security.Authorization;
 
 namespace Egharpay.Controllers
 {
     public class BaseController : Controller
     {
-        private IEgharpayBusinessService _EgharpayBusinessService;
         private ApplicationUserManager _userManager;
         private ApplicationUser _applicationUser;
-
-        protected IEgharpayBusinessService EgharpayBusinessService
-        {
-            get
-            {
-                return _EgharpayBusinessService;
-            }
-        }
+        protected IAuthorizationService AuthorizationService { get; private set; }
+        protected IConfigurationManager ConfigurationManager { get; private set; }
 
         public BaseController()
         {
         }
-
-        public BaseController(IEgharpayBusinessService EgharpayBusinessService)
+        public BaseController(IAuthorizationService authorizationService)
         {
-            _EgharpayBusinessService = EgharpayBusinessService;
+            AuthorizationService = authorizationService;
         }
-
-
+        public BaseController(IConfigurationManager configurationManager)
+        {
+            ConfigurationManager = configurationManager;
+        }
+        public BaseController(IConfigurationManager configurationManager, IAuthorizationService authorizationService)
+        {
+            ConfigurationManager = configurationManager;
+            AuthorizationService = authorizationService;
+        }
 
         protected ApplicationUserManager UserManager
         {
@@ -59,26 +61,12 @@ namespace Egharpay.Controllers
             }
         }
 
-        protected TenantOrganisation Organisation => UserManager.TenantOrganisation;
-
-
-        protected int UserOrganisationId => ApplicationUser?.OrganisationId ?? 0;
-        protected int UserPersonnelId => ApplicationUser?.PersonnelId ?? 0;
-        protected int UserCentreId => ApplicationUser?.CentreId ?? 0;
-        // protected int UserEnquiryId => ApplicationUser?.EnquiryId?? 0;
-
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var viewModel = filterContext.Controller.ViewData.Model as BaseViewModel;
 
             if (viewModel != null)
             {
-                var organisation = UserManager.TenantOrganisation;
-                viewModel.OrganisationName = organisation?.Name ?? string.Empty;
-                viewModel.CentreName = EgharpayBusinessService.RetrieveCentre(UserOrganisationId, UserCentreId, e => true)?.Name ?? viewModel.OrganisationName;
-                viewModel.PersonnelId = UserPersonnelId;
-                viewModel.CentreId = UserCentreId;
-                // viewModel.EnquiryId = UserEnquiryId;
 
             }
 
@@ -89,9 +77,6 @@ namespace Egharpay.Controllers
         {
             if (disposing)
             {
-                if (_EgharpayBusinessService != null)
-                    _EgharpayBusinessService = null;
-
                 if (_userManager != null)
                 {
                     _userManager.Dispose();
@@ -103,6 +88,11 @@ namespace Egharpay.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        public ActionResult HttpForbidden()
+        {
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.Forbidden);
         }
     }
 }
