@@ -61,16 +61,23 @@ namespace Egharpay.Controllers
             }
         }
 
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var viewModel = filterContext.Controller.ViewData.Model as BaseViewModel;
-
-            if (viewModel != null)
+            //Don't redirect to Terms and conditions for Account controller actions
+            if (filterContext.ActionDescriptor.ControllerDescriptor.ControllerName == "Account")
             {
-
+                base.OnActionExecuting(filterContext);
+                return;
             }
 
-            base.OnActionExecuted(filterContext);
+            //// If the user is logged in and has not signed terms and conditions...
+            //if (User.Identity.GetUserId() != null && !HasUserAgreedToTermsAndConditions(filterContext.HttpContext))
+            //{
+            //    var returnUrl = Request.QueryString["ReturnUrl"]
+            //        ?? filterContext.RequestContext.HttpContext.Request.Url.LocalPath;
+            //    filterContext.RequestContext.HttpContext.Response.Redirect($"/Account/TermsAndConditions?ReturnUrl={returnUrl}");
+            //    return;
+            //}
         }
 
         protected override void Dispose(bool disposing)

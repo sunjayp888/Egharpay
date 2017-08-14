@@ -97,7 +97,6 @@
     <Compile Include="MaintenanceGrid.cs" />
     <Compile Include="Dto\PagedResult.cs" />
     <Compile Include="Dto\Paging.cs" />
-    <Compile Include="Partials\Personnel.cs" />
     <Compile Include="Partials\Template.cs" />
     <Compile Include="Personnel.cs" />
     <Compile Include="PersonnelGrid.cs" />

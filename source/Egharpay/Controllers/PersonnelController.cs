@@ -40,7 +40,7 @@ namespace Egharpay.Controllers
         }
 
         private readonly IPersonnelBusinessService _personnelBusinessService;
-        protected IAuthorizationService AuthorizationService { get; private set; }
+       // protected IAuthorizationService AuthorizationService { get; private set; }
         const string UserNotExist = "User does not exist.";
 
         public PersonnelController(IPersonnelBusinessService personnelBusinessService, IConfigurationManager configurationManager, IAuthorizationService authorizationService) : base(configurationManager, authorizationService)
@@ -269,12 +269,12 @@ namespace Egharpay.Controllers
         }
 
         [Route("{personnelId}/Documents")]
-        public async Task<ActionResult> Documents(int personnelId)
+        public async Task<ActionResult> Documents(int? personnelId)
         {
-            if (!await AuthorizationService.AuthorizeAsync((ClaimsPrincipal)User, personnelId, Policies.Resource.Personnel.ToString()))
+            if (!await AuthorizationService.AuthorizeAsync((ClaimsPrincipal)User, personnelId.Value, Policies.Resource.Personnel.ToString()))
                 return HttpForbidden();
 
-            var personnel = await _personnelBusinessService.RetrievePersonnel(personnelId);
+            var personnel = await _personnelBusinessService.RetrievePersonnel(personnelId.Value);
             if (personnel == null)
                 return HttpNotFound(UserNotExist);
 

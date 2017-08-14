@@ -288,7 +288,9 @@
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Interfaces\ITenantsService.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Authorization\PermissionsRequirement.cs" />
     <Compile Include="Models\Authorization\Policies.cs" />
+    <Compile Include="Models\Authorization\UnityAuthorizationDependencies.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\CentreViewModel.cs" />
     <Compile Include="Models\DocumentViewModel.cs" />

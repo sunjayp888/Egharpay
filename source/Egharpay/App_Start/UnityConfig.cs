@@ -22,6 +22,7 @@ using Egharpay.Data.Services;
 using Configuration = System.Configuration.Configuration;
 using Egharpay.Business;
 using AutoMapper;
+using Microsoft.Owin.Security.Authorization;
 
 namespace Egharpay
 {
@@ -71,6 +72,8 @@ namespace Egharpay
             container.RegisterType<IGenericDataService<DbContext>, EntityFrameworkGenericDataService>();
             container.RegisterType<ICacheProvider, MemoryCacheProvider>();
             container.RegisterType<IConfigurationManager, ConfigurationManagerAdapter>();
+            container.RegisterType<IAuthorizationService, DefaultAuthorizationService>();
+            container.RegisterType<IAuthorizationPolicyProvider, DefaultAuthorizationPolicyProvider>();
             // container.RegisterType<IClientsAccessService, ClientsAccessService>();
             // API Clients
             //container.RegisterType<IDocumentServiceRestClient, DocumentServiceRestClient>(
@@ -87,7 +90,7 @@ namespace Egharpay
             //        new InjectionParameter<string>(ConfigurationManager.AppSettings["TemplateRESTPassword"])
             //    ));
 
-           
+
 
             //container.RegisterType<Business.EmailServiceReference.IEmailService, Business.EmailServiceReference.EmailServiceClient>(
             //    new InjectionConstructor(
